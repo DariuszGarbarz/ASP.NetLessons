@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Infrastructure.DTO
 {
+    // DTO Data Transfer Objects
     public class EventDto
     {
         public Guid Id { get; set; }
