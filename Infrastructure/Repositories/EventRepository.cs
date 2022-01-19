@@ -11,7 +11,10 @@ namespace Infrastructure.Repositories
     public class EventRepository : IEventRepository
     {
         //Hardcoded, later im going to add database
-        private static readonly ISet<Event> _events = new HashSet<Event>();
+        private static readonly ISet<Event> _events = new HashSet<Event>
+        {
+            new Event(Guid.NewGuid(), "DAYTONA 24H", "Tym razem Pajacerka Racing podniosla swoje szanse na dojechanie wyscigu wystawiajac dwa zespoly. Z 0% szans na 0% szans. - To sukces - oglosil rzad Vateusza", DateTime.UtcNow.AddHours(2), DateTime.UtcNow.AddHours(4))
+        };
 
         public async Task<Event> GetAsync(Guid id)
             => await Task.FromResult(_events.SingleOrDefault(x => x.Id == id));
