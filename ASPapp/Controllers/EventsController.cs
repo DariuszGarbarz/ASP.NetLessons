@@ -1,4 +1,5 @@
-﻿using Infrastructure.Services;
+﻿using Infrastructure.Commands.Events;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,5 +24,14 @@ namespace ASPapp.Controllers
 
             return Json(events);
         } 
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]CreateEvent command)
+        {
+            command.EventId = Guid.NewGuid();
+            await _eventService.CreateAsync(command.EventId, command.Name, command.Description, command.StartDate, command.EndDate);
+
+            return Created($"/events/{command.EventId}", null);
+        }
     }
 }

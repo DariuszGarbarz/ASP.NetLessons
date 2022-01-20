@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Domain;
 using Core.Repositories;
 using Infrastructure.DTO;
 using System;
@@ -40,7 +41,13 @@ namespace Infrastructure.Services
 
         public async Task CreateAsync(Guid id, string name, string description, DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+            var @event = await _eventRepository.GetAsync(name);
+            if(@event != null)
+            {
+                throw new Exception($"Event named:'{name}' already exist.");
+            }
+            @event = new Event(id, name, description, startDate, endDate);
+            await _eventRepository.AddAsync(@event);
         }
         public async Task AddTicketsAsync(Guid eventId, int amount, decimal price)
         {
