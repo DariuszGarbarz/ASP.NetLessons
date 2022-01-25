@@ -49,10 +49,23 @@ namespace Infrastructure.Services
             @event = new Event(id, name, description, startDate, endDate);
             await _eventRepository.AddAsync(@event);
         }
+
         public async Task AddTicketsAsync(Guid eventId, int amount, decimal price)
         {
-            throw new NotImplementedException();
+            var @event = await _eventRepository.GetAsync(eventId);
+            if (@event == null)
+            {
+                throw new Exception($"Event with:'{eventId}' doesn't exist.");
+            }
+            @event.AddTickets(amount, price);
+            // for future sql database
+            await _eventRepository.UpdateAsync(@event);
         }
+
+
+
+
+
         public async Task UpdateAsync(Guid id, string name, string description)
         {
             throw new NotImplementedException();
